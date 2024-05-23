@@ -1,1 +1,2 @@
-This is the Official Repo for gestureSync
+This is the Official Repo for gestureSync.
+

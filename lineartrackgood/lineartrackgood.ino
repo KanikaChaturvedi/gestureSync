@@ -61,7 +61,14 @@ void setup() {
 float vx = 0;
 float sx = 0;
 
-float delaytime = 10;
+float vy = 0;
+float sy = 0;
+
+float vz = 0;
+float sz = 0;
+
+
+float delaytime = 100;
 
 
 float xvel(float ax)
@@ -76,6 +83,32 @@ float xdisplacement(float sx, float ax)
   return sx;
 }
 
+
+
+float yvel(float ay)
+{
+  vy = vy + ay * delaytime / 1000;
+  return vy;
+}
+float ydisplacement(float sy, float ay)
+{
+  sy = sy + yvel(ay) * delaytime / 1000;
+  return sy;
+}
+
+
+float zvel(float az)
+{
+  vz = vz + az * delaytime / 1000;
+  return vz;
+}
+float zdisplacement(float sz, float az)
+{
+  sz = sz + zvel(az) * delaytime / 1000;
+  return sz;
+}
+
+
 void loop() {
     // read raw accel/gyro measurements from device
     accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
@@ -86,13 +119,15 @@ void loop() {
 
     #ifdef OUTPUT_READABLE_ACCELGYRO
         // display tab-separated accel/gyro x/y/z values
-        Serial.print(ax);
-        // Serial.println(xdisplacement(sx,ax*9.8 / 16384)); 
+        // Serial.print(ax);
+        // Serial.print(" ");
+        // Serial.println(sqrt(ax*ax + ay*ay + az*az));
+        // Serial.println(xdisplacement(sx,ax-gx)); 
         // Serial.print(ay); Serial.print("\t");
         // Serial.print(az); Serial.print("\t");
-        // Serial.print(gx); Serial.print("\t");
-        // Serial.print(gy); Serial.print("\t");
-        // Serial.println(gz);
+        Serial.print(gx); Serial.print("\t");
+        Serial.print(gy); Serial.print("\t");
+        Serial.println(gz);
     #endif
 
     #ifdef OUTPUT_BINARY_ACCELGYRO
@@ -107,4 +142,5 @@ void loop() {
     // blink LED to indicate activity
     blinkState = !blinkState;
     digitalWrite(LED_PIN, blinkState);
+    delay(delaytime);
 }
